@@ -1,0 +1,43 @@
+<h2>Comments</h2>
+<% article_comments.each do |comment| %>
+    <% unless comment.archived? %>
+    	<p>
+    		<strong>Commenter:	</strong>
+    		<%= comment.commenter %>
+    	</p>
+    		<p>
+    		<strong>Comment:	</strong>
+    		<%= comment.body %>
+    	</p>
+    <% end %>
+<% end %>
+
+
+<br><br>
+<h3>Add a comment</h3>
+<%= form_with model: [ article, article_comments.build ] do |form| %>
+  <div>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+    <% @article.errors.full_messages_for(:commenter).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div><br>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %><br>
+    <% @article.errors.full_messages_for(:body).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div><br>
+
+  <div>
+    <%= form.label :status %><br>
+    <%= form.select :status, ['public','privated','archived'], select: 'public'%>
+  </div><br><br>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
